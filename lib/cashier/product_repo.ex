@@ -1,4 +1,4 @@
-defmodule ProductRepo do
+defmodule Cashier.ProductRepo do
   @moduledoc """
     This module is a GenServer which contains all the products loaded during start up
   """
@@ -13,17 +13,27 @@ defmodule ProductRepo do
     GenServer.call(__MODULE__, {:find_by_code, code})
   end
 
+  @spec find_all() :: {:ok, list(Product.t())}
+  def find_all do
+    GenServer.call(__MODULE__, :find_all)
+  end
+
   def handle_call({:find_by_code, code}, _from, %{products: products} = state) do
     {:reply, find_product_by_code(code, products), state}
   end
 
+  def handle_call(:find_all, _from, %{products: products} = state) do
+    {:reply, products, state}
+  end
+
   def start_link(args) do
     file_path = Keyword.fetch!(args, :file_path)
+    name = Keyword.get(args, :name, __MODULE__)
 
     GenServer.start_link(
       __MODULE__,
       %{file_path: file_path, products: []},
-      name: __MODULE__
+      name: name
     )
   end
 
