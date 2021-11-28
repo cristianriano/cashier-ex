@@ -1,21 +1,22 @@
-# Cashier
+# Cashier System
 
-**TODO: Add description**
+Simple cashier function that adds products to a cart and displays the total price.
 
-## Installation
+The following products are registered:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `cashier` to your list of dependencies in `mix.exs`:
+| Product Code | Name | Price |
+|--------------|------|-------|
+| GR1 | Green Tea | £3.11 |
+| SR1 | Strawberries | £5.00 |
+| CF1 | Coffee | £11.23 |
 
-```elixir
-def deps do
-  [
-    {:cashier, "~> 0.1.0"}
-  ]
-end
-```
+**Special Rules**
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/cashier](https://hexdocs.pm/cashier).
+- Buy one get one free
+- Buy > N products, pay X price per product
+- Buy > N products, pay X% of the original price
 
+## Setup
+
+- Elixir 1.12.3
+- Erlang OTP 24
