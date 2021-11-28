@@ -41,7 +41,6 @@ defmodule Cashier.ProductRepo do
     case load_products(file_path) do
       {:ok, products} -> {:ok, %{state | products: products}}
       {:error, reason} -> {:stop, reason}
-      _ -> {:stop, :error}
     end
   end
 
