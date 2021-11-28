@@ -4,7 +4,7 @@ defmodule Cashier.Basket do
   """
 
   @type t() :: %__MODULE__{
-          products: list(Product.t()),
+          products: nonempty_list(Product.t()),
           quantities_by_code: map(),
           total_price: float()
         }
@@ -16,7 +16,7 @@ defmodule Cashier.Basket do
 
   alias Cashier.Product
 
-  @spec new(list(Product.t())) :: t()
+  @spec new(nonempty_list(Product.t())) :: t()
   def new(products) do
     %__MODULE__{products: products}
   end
