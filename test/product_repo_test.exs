@@ -18,7 +18,7 @@ defmodule ProductRepoTest do
   end
 
   @tag file_path: "invalid/products.yml"
-  test "stops the repo if file is invalid", %{pid_reply: {status, message}} do
+  test "stops the repo if file is invalid", %{pid_reply: {status, _message}} do
     assert status == :error
   end
 end
