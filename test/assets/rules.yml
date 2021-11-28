@@ -1,0 +1,14 @@
+rules:
+  - type: free
+    target: GR1
+    min: 1
+
+  - type: reduced_price
+    target: SR1
+    min: 3
+    new_price: 4.50
+
+  - type: fraction_price
+    target: CF1
+    min: 3
+    fraction: 0.666

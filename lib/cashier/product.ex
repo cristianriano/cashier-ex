@@ -3,8 +3,9 @@ defmodule Cashier.Product do
     Represents a product
   """
 
+  @type code() :: String.t()
   @type t() :: %__MODULE__{
-          code: String.t(),
+          code: code(),
           name: String.t(),
           price: float()
         }
