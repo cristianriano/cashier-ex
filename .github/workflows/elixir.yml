@@ -1,13 +1,17 @@
 name: CI
 
-on: push
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 env:
   MIX_ENV: test
 
 jobs:
   linter:
-    name: Runs codestyle and code analysis
+    name: Codestyle and code analysis
     runs-on: ubuntu-latest
 
     strategy:
