@@ -5,8 +5,6 @@ defmodule Cashier do
 
   alias Cashier.Product
 
-  @spec get_product_info(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
-  def get_product_info(code) do
-    {:error, :not_found}
-  end
+  @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
+  defdelegate find_product_by_code(code), to: ProductRepo
 end

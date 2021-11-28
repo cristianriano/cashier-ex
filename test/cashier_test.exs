@@ -4,11 +4,10 @@ defmodule CashierTest do
   """
 
   use ExUnit.Case, async: true
-  doctest Cashier
 
-  describe ".get_product_info" do
+  describe ".find_product_by_code" do
     test "returns the product info" do
-      {:ok, product} = Cashier.get_product_info("GR1")
+      {:ok, product} = Cashier.find_product_by_code("GR1")
 
       assert product.code == "GR1"
       assert product.name == "Green Tea"
@@ -16,7 +15,7 @@ defmodule CashierTest do
     end
 
     test "returns :not_found when products do not exists" do
-      {:error, reason} = Cashier.get_product_info("invalid")
+      {:error, reason} = Cashier.find_product_by_code("invalid")
 
       assert reason == :not_found
     end
