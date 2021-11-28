@@ -1,18 +1,12 @@
 defmodule Cashier do
   @moduledoc """
-  Documentation for `Cashier`.
+  Interface with the Cashier app
   """
 
-  @doc """
-  Hello world.
+  alias Cashier.Product
 
-  ## Examples
-
-      iex> Cashier.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @spec get_product_info(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
+  def get_product_info(code) do
+    {:error, :not_found}
   end
 end
