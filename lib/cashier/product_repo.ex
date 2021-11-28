@@ -8,6 +8,15 @@ defmodule ProductRepo do
 
   alias Cashier.Product
 
+  @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
+  def find_product_by_code(code) do
+    GenServer.call(__MODULE__, {:find_by_code, code})
+  end
+
+  def handle_call({:find_by_code, code}, _from, %{products: products} = state) do
+    {:reply, find_product_by_code(code, products), state}
+  end
+
   def start_link(args) do
     file_path = Keyword.fetch!(args, :file_path)
 
@@ -23,6 +32,13 @@ defmodule ProductRepo do
       {:ok, products} -> {:ok, %{state | products: products}}
       {:error, reason} -> {:stop, reason}
       _ -> {:stop, :error}
+    end
+  end
+
+  defp find_product_by_code(query, products) do
+    case Enum.find(products, fn %Product{code: code} -> query == code end) do
+      product when is_struct(product) -> {:ok, product}
+      nil -> {:error, :not_found}
     end
   end
 
