@@ -7,7 +7,7 @@ defmodule Cashier.Application do
   def start(_type, _args) do
     children = [
       {
-        ProductRepo,
+        Cashier.ProductRepo,
         file_path: Application.fetch_env!(:cashier, :products_file)
       }
     ]
