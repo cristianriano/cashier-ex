@@ -13,8 +13,8 @@ defmodule Cashier.Rules.FractionPriceRule do
       target: target,
       process: fn %Basket{products_by_code: products, quantities_by_code: quantities} = basket ->
         case quantities[target] do
-          q when (q >= min) and (fraction < 1.0) ->
-            discount = (products[target].price * (1 - fraction)) * q
+          q when q >= min and fraction < 1.0 ->
+            discount = products[target].price * (1 - fraction) * q
             Basket.reduce_total_price(basket, discount)
 
           _ ->

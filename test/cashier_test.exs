@@ -22,8 +22,6 @@ defmodule CashierTest do
   end
 
   describe ".calculate_total_price" do
-    @describetag :skip
-
     test "gets a green tea for free" do
       assert_in_delta(Cashier.calculate_total_price("GR1,SR1,GR1,GR1,CF1"), 22.45, 0.1)
     end

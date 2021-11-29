@@ -13,6 +13,12 @@ defmodule Cashier.ProductRepo do
     GenServer.call(__MODULE__, {:find_by_code, code})
   end
 
+  @spec find_product_by_code!(String.t()) :: Product.t()
+  def find_product_by_code!(code) do
+    {:ok, product} = find_product_by_code(code)
+    product
+  end
+
   @spec find_all() :: {:ok, list(Product.t())}
   def find_all do
     GenServer.call(__MODULE__, :find_all)
