@@ -25,7 +25,7 @@ defmodule Cashier.Basket do
   end
 
   @spec reduce_total_price(t(), float()) :: t()
-  def reduce_total_price(basket, deduction) do
+  def reduce_total_price(basket, deduction) when deduction > 0 do
     new_price =
       case basket.total_price - deduction do
         diff when diff >= 0 -> diff
@@ -34,6 +34,8 @@ defmodule Cashier.Basket do
 
     %{basket | total_price: new_price}
   end
+
+  def reduce_total_price(basket, _), do: basket
 
   defp group_products_by_code(products) do
     Enum.reduce(products, %{}, fn %Product{code: code} = p, acc -> Map.put(acc, code, p) end)
