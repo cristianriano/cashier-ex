@@ -26,21 +26,22 @@ defmodule Cashier.Basket do
 
   @spec reduce_total_price(t(), float()) :: t()
   def reduce_total_price(basket, deduction) do
-    new_price = case basket.total_price - deduction do
-      diff when diff >= 0 -> diff
-      _ -> 0
-    end
+    new_price =
+      case basket.total_price - deduction do
+        diff when diff >= 0 -> diff
+        _ -> 0
+      end
 
     %{basket | total_price: new_price}
   end
 
   defp group_products_by_code(products) do
-    Enum.group_by(products, &(&1.code))
+    Enum.reduce(products, %{}, fn %Product{code: code} = p, acc -> Map.put(acc, code, p) end)
   end
 
   defp count_by_code(products) do
     products
-    |> Enum.map(&(&1.code))
+    |> Enum.map(& &1.code)
     |> Enum.frequencies()
   end
 
