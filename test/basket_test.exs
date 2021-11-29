@@ -18,8 +18,6 @@ defmodule Cashier.BasketTest do
   end
 
   describe ".new" do
-    @describetag :skip
-
     test "calculates quantities", %{basket: basket} do
       assert basket.quantities_by_code == %{
                "1" => 2,
@@ -34,6 +32,18 @@ defmodule Cashier.BasketTest do
 
     test "calculates total_price", %{basket: basket} do
       assert basket.total_price == 7.0
+    end
+  end
+
+  describe ".reduce_total_price" do
+    test "decreases basket total_price", %{basket: basket} do
+      new_basket = Basket.reduce_total_price(basket, 1.5)
+      assert new_basket.total_price == 5.5
+    end
+
+    test "sets total_price to 0 when discount is bigger", %{basket: basket} do
+      new_basket = Basket.reduce_total_price(basket, 100.0)
+      assert new_basket.total_price == 0.0
     end
   end
 end
