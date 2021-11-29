@@ -28,7 +28,7 @@ defmodule Cashier.Rule do
       |> transform_keys()
       |> Map.take([:min, :target, :new_price, :fraction, :type])
 
-    case new_args.type do
+    case new_args[:type] do
       "free" -> FreeRule.init(new_args)
       "reduced_price" -> ReducedPriceRule.init(new_args)
       "fraction_price" -> FractionPriceRule.init(new_args)
