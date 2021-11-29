@@ -9,6 +9,10 @@ defmodule Cashier.Application do
       {
         Cashier.ProductRepo,
         file_path: Application.fetch_env!(:cashier, :products_file)
+      },
+      {
+        Cashier.RuleRepo,
+        file_path: Application.fetch_env!(:cashier, :rules_file)
       }
     ]
 
