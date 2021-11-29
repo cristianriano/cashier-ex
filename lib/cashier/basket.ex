@@ -6,20 +6,19 @@ defmodule Cashier.Basket do
   alias Cashier.Product
 
   @type t() :: %__MODULE__{
-          products: nonempty_list(Product.t()),
-          quantities_by_code: map(),
+          products_by_code: %{Product.code() => Product.t()},
+          quantities_by_code: %{Product.code() => non_neg_integer()},
           total_price: float()
         }
 
-  @enforce_keys [:products]
-  defstruct products: [],
+  defstruct products_by_code: %{},
             quantities_by_code: %{},
             total_price: 0.0
 
   @spec new(nonempty_list(Product.t())) :: t()
-  def new(products) do
+  def new(products) when is_list(products) do
     %__MODULE__{
-      products: products,
+      products_by_code: group_products_by_code(products),
       quantities_by_code: count_by_code(products),
       total_price: calculate_initial_price(products)
     }
@@ -35,13 +34,17 @@ defmodule Cashier.Basket do
     %{basket | total_price: new_price}
   end
 
+  defp group_products_by_code(products) do
+    Enum.group_by(products, &(&1.code))
+  end
+
   defp count_by_code(products) do
     products
     |> Enum.map(&(&1.code))
     |> Enum.frequencies()
   end
 
-  defp calculate_initial_price(products) when is_list(products) do
+  defp calculate_initial_price(products) do
     products
     |> Enum.reduce(0.0, fn product, acc_price -> product.price + acc_price end)
   end
