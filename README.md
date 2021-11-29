@@ -16,7 +16,21 @@ The following products are registered:
 - Buy > N products, pay X price per product
 - Buy > N products, pay X% of the original price
 
+## Products and Discount Rules
+
+The project **doesn't connect to a database**, it reads both the products and rules from a YAML file.\
+The default location of the file is `config/assets/products.yml` and `config/assets/rules.yml`, this can be changed in the Configuration.
+
+Currently there are only 3 types of configurable discount rules:
+- FreeRule (buy X get 1 free)
+- ReducedPriceRule (buy more than X pay a different price)
+- FractionPriceRule (buy more than X, pay a percentage of the original price)
 ## Setup
 
 - Elixir 1.12.3
 - Erlang OTP 24
+- Run tests with `mix tests`
+- Run the formatter with `mix format`
+- Run Credo `mix credo --strict`
+
+*Note:* There is a Github Action configured running all the above on every PR or push to master
