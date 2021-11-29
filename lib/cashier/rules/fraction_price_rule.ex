@@ -2,6 +2,7 @@ defmodule Cashier.Rules.FractionPriceRule do
   @moduledoc """
     This rule represents getting a fraction of the original price when buying in bulk
   """
+
   alias Cashier.Rule
 
   @behaviour Rule

@@ -10,6 +10,8 @@ defmodule Cashier.Rule do
   alias Cashier.Rules.ReducedPriceRule
 
   @type target() :: Product.code()
+  @type rule_options() :: :min | :new_price | :target | :fraction
+  @type rule_process_fun() :: (Basket.t() -> Basket.t())
   @type t() :: %__MODULE__{
           target: target(),
           process: fun()
@@ -19,7 +21,7 @@ defmodule Cashier.Rule do
   defstruct target: nil,
             process: nil
 
-  @callback init(args :: map()) :: t()
+  @callback init(args :: %{rule_options() => any()}) :: t()
 
   @spec new(map()) :: t()
   def new(args) when is_map(args) do
@@ -38,7 +40,7 @@ defmodule Cashier.Rule do
 
   @spec apply_discount(rule :: t(), basket :: Basket.t()) :: Basket.t()
   def apply_discount(rule, basket) do
-    basket
+    apply(rule.process, [basket])
   end
 
   defp transform_keys(args) do

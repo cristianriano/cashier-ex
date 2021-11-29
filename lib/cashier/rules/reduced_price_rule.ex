@@ -2,6 +2,8 @@ defmodule Cashier.Rules.ReducedPriceRule do
   @moduledoc """
     This rule represents getting a new reduced price when buying in bulk
   """
+
+  alias Cashier.Basket
   alias Cashier.Rule
 
   @behaviour Rule
