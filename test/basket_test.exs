@@ -26,8 +26,8 @@ defmodule Cashier.BasketTest do
              }
     end
 
-    test "sets products", %{basket: basket, products: products} do
-      assert basket.products == products
+    test "sets products by code", %{basket: basket, products: products} do
+      assert basket.products_by_code == Enum.group_by(products, &(&1.code))
     end
 
     test "calculates total_price", %{basket: basket} do
