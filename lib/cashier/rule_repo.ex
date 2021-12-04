@@ -7,7 +7,6 @@ defmodule Cashier.RuleRepo do
   require Logger
 
   alias Cashier.Rule
-  alias Cashier.Utils
 
   @spec find_rules_by_target(Rule.target()) :: {:ok, list(Rule.t())}
   def find_rules_by_target(target) do
@@ -53,7 +52,6 @@ defmodule Cashier.RuleRepo do
   @spec load_rules(String.t()) :: {:ok, list(Rule.t())} | {:error, String.t()}
   defp load_rules(path) do
     path
-    |> Utils.parse_path()
     |> YamlElixir.read_from_file()
     |> process_file()
   end

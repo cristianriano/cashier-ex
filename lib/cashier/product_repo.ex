@@ -7,7 +7,6 @@ defmodule Cashier.ProductRepo do
   require Logger
 
   alias Cashier.Product
-  alias Cashier.Utils
 
   @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
   def find_product_by_code(code) do
@@ -63,7 +62,6 @@ defmodule Cashier.ProductRepo do
   @spec load_products(String.t()) :: {:ok, list(Product.t())} | {:error, String.t()}
   defp load_products(path) do
     path
-    |> Utils.parse_path()
     |> YamlElixir.read_from_file()
     |> process_file()
   end
