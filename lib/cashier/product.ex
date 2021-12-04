@@ -3,6 +3,8 @@ defmodule Cashier.Product do
     Represents a product
   """
 
+  alias Cashier.Utils
+
   @type code() :: String.t()
   @type t() :: %__MODULE__{
           code: code(),
@@ -19,17 +21,11 @@ defmodule Cashier.Product do
 
   @spec new(map()) :: t()
   def new(args) when is_map(args) do
-    new_args = transform_keys(args)
+    new_args = Utils.transform_keys(args)
 
     __MODULE__
     |> struct!(new_args)
     |> parse_price()
-  end
-
-  defp transform_keys(args) do
-    for {key, val} <- args, into: %{} do
-      if is_atom(key), do: {key, val}, else: {String.to_existing_atom(key), val}
-    end
   end
 
   defp parse_price(%__MODULE__{price: price} = product) do

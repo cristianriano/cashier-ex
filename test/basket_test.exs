@@ -26,7 +26,7 @@ defmodule Cashier.BasketTest do
              }
     end
 
-    test "sets products by code", %{basket: basket, products: products} do
+    test "sets products by code", %{basket: basket} do
       assert basket.products_by_code == %{
                "1" => Product.new(%{code: "1", price: "1.0"}),
                "2" => Product.new(%{code: "2", price: "2.0"}),

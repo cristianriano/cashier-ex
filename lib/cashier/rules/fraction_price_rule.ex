@@ -8,7 +8,7 @@ defmodule Cashier.Rules.FractionPriceRule do
 
   @behaviour Rule
 
-  def init(%{target: target, min: min, fraction: fraction} = args) when is_binary(target) do
+  def init(%{target: target, min: min, fraction: fraction}) when is_binary(target) do
     %Rule{
       target: target,
       process: fn %Basket{products_by_code: products, quantities_by_code: quantities} = basket ->

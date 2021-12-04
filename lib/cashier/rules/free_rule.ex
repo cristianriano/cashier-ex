@@ -8,7 +8,7 @@ defmodule Cashier.Rules.FreeRule do
 
   @behaviour Rule
 
-  def init(%{target: target, min: min} = args) when is_binary(target) do
+  def init(%{target: target, min: min}) when is_binary(target) do
     %Rule{
       target: target,
       process: fn %Basket{products_by_code: products, quantities_by_code: quantities} = basket ->

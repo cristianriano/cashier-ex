@@ -8,6 +8,7 @@ defmodule Cashier.Rule do
   alias Cashier.Rules.FractionPriceRule
   alias Cashier.Rules.FreeRule
   alias Cashier.Rules.ReducedPriceRule
+  alias Cashier.Utils
 
   @type target() :: Product.code()
   @type rule_options() :: :min | :new_price | :target | :fraction
@@ -27,7 +28,7 @@ defmodule Cashier.Rule do
   def new(args) when is_map(args) do
     new_args =
       args
-      |> transform_keys()
+      |> Utils.transform_keys()
       |> Map.take([:min, :target, :new_price, :fraction, :type])
 
     case new_args[:type] do
@@ -41,11 +42,5 @@ defmodule Cashier.Rule do
   @spec apply_discount(rule :: t(), basket :: Basket.t()) :: Basket.t()
   def apply_discount(rule, basket) do
     apply(rule.process, [basket])
-  end
-
-  defp transform_keys(args) do
-    for {key, val} <- args, into: %{} do
-      if is_atom(key), do: {key, val}, else: {String.to_existing_atom(key), val}
-    end
   end
 end

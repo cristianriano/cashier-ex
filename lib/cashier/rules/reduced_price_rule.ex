@@ -8,7 +8,7 @@ defmodule Cashier.Rules.ReducedPriceRule do
 
   @behaviour Rule
 
-  def init(%{target: target, min: min, new_price: new_price} = args) when is_binary(target) do
+  def init(%{target: target, min: min, new_price: new_price}) when is_binary(target) do
     %Rule{
       target: target,
       process: fn %Basket{products_by_code: products, quantities_by_code: quantities} = basket ->
