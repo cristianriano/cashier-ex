@@ -38,6 +38,5 @@ Currently there are only 3 types of configurable discount rules:
 ## Improvements
 
 - Load the data at compile time
-- Add specs to private functions
 - Spawn more than 1 repo and use consistent hashing to route calls
 - Dockerize

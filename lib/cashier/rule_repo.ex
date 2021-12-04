@@ -7,6 +7,7 @@ defmodule Cashier.RuleRepo do
   require Logger
 
   alias Cashier.Rule
+  alias Cashier.Utils
 
   @spec find_rules_by_target(Rule.target()) :: {:ok, list(Rule.t())}
   def find_rules_by_target(target) do
@@ -44,21 +45,21 @@ defmodule Cashier.RuleRepo do
     end
   end
 
+  @spec find_by_target(Rule.target(), list(Rule.t())) :: list(Rule.t())
   defp find_by_target(query, rules) do
     Enum.filter(rules, fn %Rule{target: target} -> query == target end)
   end
 
+  @spec load_rules(String.t()) :: {:ok, list(Rule.t())} | {:error, String.t()}
   defp load_rules(path) do
-    parse_path(path)
+    path
+    |> Utils.parse_path()
     |> YamlElixir.read_from_file()
     |> process_file()
   end
 
-  defp parse_path(path) do
-    File.cwd!()
-    |> Path.join(path)
-  end
-
+  @spec process_file({:ok, map()} | {:error, any()}) ::
+          {:ok, list(Rule.t())} | {:error, String.t()}
   defp process_file({:ok, %{"rules" => rules}}) do
     parsed_rules =
       rules

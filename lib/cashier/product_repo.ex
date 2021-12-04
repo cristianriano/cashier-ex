@@ -7,6 +7,7 @@ defmodule Cashier.ProductRepo do
   require Logger
 
   alias Cashier.Product
+  alias Cashier.Utils
 
   @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
   def find_product_by_code(code) do
@@ -50,6 +51,8 @@ defmodule Cashier.ProductRepo do
     end
   end
 
+  @spec find_product_by_code(Product.code(), list(Product.t())) ::
+          {:ok, Product.t()} | {:error, :not_found}
   defp find_product_by_code(query, products) do
     case Enum.find(products, fn %Product{code: code} -> query == code end) do
       product when is_struct(product) -> {:ok, product}
@@ -57,17 +60,16 @@ defmodule Cashier.ProductRepo do
     end
   end
 
+  @spec load_products(String.t()) :: {:ok, list(Product.t())} | {:error, String.t()}
   defp load_products(path) do
-    parse_path(path)
+    path
+    |> Utils.parse_path()
     |> YamlElixir.read_from_file()
     |> process_file()
   end
 
-  defp parse_path(path) do
-    File.cwd!()
-    |> Path.join(path)
-  end
-
+  @spec process_file({:ok, map()} | {:error, any()}) ::
+          {:ok, list(Product.t())} | {:error, String.t()}
   defp process_file({:ok, %{"products" => products}}) do
     parsed_products =
       products

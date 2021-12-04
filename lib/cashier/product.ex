@@ -28,6 +28,7 @@ defmodule Cashier.Product do
     |> parse_price()
   end
 
+  @spec parse_price(%__MODULE__{}) :: %__MODULE__{} | nil
   defp parse_price(%__MODULE__{price: price} = product) do
     case Regex.run(@price_regex, price) do
       [value] -> %__MODULE__{product | price: String.to_float(value)}

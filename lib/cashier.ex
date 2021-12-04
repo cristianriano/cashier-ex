@@ -29,6 +29,7 @@ defmodule Cashier do
     new_basket.total_price
   end
 
+  @spec parse_codes(String.t()) :: list(Product.t())
   defp parse_codes(codes) do
     codes
     |> String.split(",")

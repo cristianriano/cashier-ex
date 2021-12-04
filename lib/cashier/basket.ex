@@ -37,16 +37,19 @@ defmodule Cashier.Basket do
 
   def reduce_total_price(basket, _), do: basket
 
+  @spec group_products_by_code(nonempty_list(Product.t())) :: %{Product.code() => Product.t()}
   defp group_products_by_code(products) do
     Enum.reduce(products, %{}, fn %Product{code: code} = p, acc -> Map.put(acc, code, p) end)
   end
 
+  @spec count_by_code(nonempty_list(Product.t())) :: %{Product.code() => pos_integer()}
   defp count_by_code(products) do
     products
     |> Enum.map(& &1.code)
     |> Enum.frequencies()
   end
 
+  @spec calculate_initial_price(nonempty_list(Product.t())) :: float()
   defp calculate_initial_price(products) do
     products
     |> Enum.reduce(0.0, fn product, acc_price -> product.price + acc_price end)
