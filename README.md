@@ -36,8 +36,18 @@ Currently there are only 3 types of configurable discount rules:
 
 *Note:* There is a Github Action configured running all the above on every PR or push to master
 
+## Release
+
+To create a release simply run\
+`mix release`
+
+Additonally a Docker image is available for production
+```
+docker build . -t cashier-ex:latest
+docker run -d --rm -it --name cashier-ex cashier-ex:latest
+```
+
 ## Improvements
 
 - Load the data at compile time
 - Spawn more than 1 repo and use consistent hashing to route calls
-- Dockerize
