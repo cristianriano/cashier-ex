@@ -19,7 +19,7 @@ The following products are registered:
 ## Products and Discount Rules
 
 The project **doesn't connect to a database**, it reads both the products and rules from a YAML file.\
-The default location of the file is `config/assets/products.yml` and `config/assets/rules.yml`, this can be changed in the Configuration.
+The default location of the file is `priv/assets/products.yml` and `priv/assets/rules.yml`, this can be changed in the Configuration.
 
 Currently there are only 3 types of configurable discount rules:
 - FreeRule (buy X get 1 free)
