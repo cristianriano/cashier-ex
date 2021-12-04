@@ -25,6 +25,7 @@ Currently there are only 3 types of configurable discount rules:
 - FreeRule (buy X get 1 free)
 - ReducedPriceRule (buy more than X pay a different price)
 - FractionPriceRule (buy more than X, pay a percentage of the original price)
+
 ## Setup
 
 - Elixir 1.12.3
