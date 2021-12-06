@@ -4,6 +4,7 @@ defmodule ProductRepoTest do
   use ExUnit.Case, async: true
 
   alias Cashier.ProductRepo
+  alias Cashier.Repo.NotFound
 
   test "loads correctly all the products" do
     products = ProductRepo.find_all()
@@ -16,7 +17,7 @@ defmodule ProductRepoTest do
   end
 
   test "raise error when product doesn't exists" do
-    assert_raise MatchError, fn ->
+    assert_raise NotFound, ~r/ER99/, fn ->
       ProductRepo.find_product_by_code!("ER99")
     end
   end
