@@ -11,7 +11,7 @@ defmodule Cashier.ProductRepo do
 
   @products_file File.read!(Application.compile_env!(:cashier, :products_file))
 
-  @spec find_product_by_code!(any(), String.t()) :: Product.t()
+  @spec find_product_by_code!(module(), String.t()) :: Product.t()
   def find_product_by_code!(module, code) do
     case GenServer.call(module, {:find_by_code, code}) do
       {:ok, product} -> product
@@ -24,7 +24,7 @@ defmodule Cashier.ProductRepo do
     find_product_by_code!(__MODULE__, code)
   end
 
-  @spec find_all(any()) :: {:ok, list(Product.t())}
+  @spec find_all(module()) :: {:ok, list(Product.t())}
   def find_all(module) do
     GenServer.call(module, :find_all)
   end

@@ -19,6 +19,18 @@ defmodule CashierTest do
     end
   end
 
+  describe ".find_all_rules" do
+    test "returns all rules" do
+      rules = Cashier.find_all_rules()
+
+      assert Enum.count(rules) == 3
+    end
+
+    test "returns nil when products do not exists" do
+      assert Cashier.find_product_by_code("invalid") == nil
+    end
+  end
+
   describe ".calculate_total_price" do
     test "gets a green tea for free" do
       assert_in_delta(Cashier.calculate_total_price("GR1,SR1,GR1,GR1,CF1"), 22.45, 0.1)
