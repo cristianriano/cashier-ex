@@ -6,14 +6,8 @@ defmodule Cashier.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {
-        Cashier.ProductRepo,
-        file_path: Application.fetch_env!(:cashier, :products_file)
-      },
-      {
-        Cashier.RuleRepo,
-        file_path: Application.fetch_env!(:cashier, :rules_file)
-      }
+      Cashier.ProductRepo,
+      Cashier.RuleRepo
     ]
 
     opts = [strategy: :one_for_one, name: Cashier.Supervisor]

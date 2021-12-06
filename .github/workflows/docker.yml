@@ -45,7 +45,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: cristianriano/cashier-ex:latest,cristianriano/cashier-ex:${{ github.sha }}
+          tags: cristianriano/cashier-ex:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 

@@ -49,5 +49,5 @@ docker run -d --rm -it --name cashier-ex cashier-ex:latest
 
 ## Improvements
 
-- Load the data at compile time
+- Add an TCP interface
 - Spawn more than 1 repo and use consistent hashing to route calls

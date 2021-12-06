@@ -8,6 +8,8 @@ defmodule Cashier.RuleRepo do
 
   alias Cashier.Rule
 
+  @rules_file File.read!(Application.compile_env!(:cashier, :rules_file))
+
   @spec find_rules_by_target(Rule.target()) :: {:ok, list(Rule.t())}
   def find_rules_by_target(target) do
     GenServer.call(__MODULE__, {:find_by_target, target})
@@ -27,19 +29,14 @@ defmodule Cashier.RuleRepo do
   end
 
   def start_link(args) do
-    file_path = Keyword.fetch!(args, :file_path)
     name = Keyword.get(args, :name, __MODULE__)
 
-    GenServer.start_link(
-      __MODULE__,
-      %{file_path: file_path, rules: []},
-      name: name
-    )
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
-  def init(%{file_path: file_path} = state) do
-    case load_rules(file_path) do
-      {:ok, rules} -> {:ok, %{state | rules: rules}}
+  def init(_) do
+    case load_rules() do
+      {:ok, rules} -> {:ok, %{rules: rules}}
       {:error, reason} -> {:stop, reason}
     end
   end
@@ -49,10 +46,10 @@ defmodule Cashier.RuleRepo do
     Enum.filter(rules, fn %Rule{target: target} -> query == target end)
   end
 
-  @spec load_rules(String.t()) :: {:ok, list(Rule.t())} | {:error, String.t()}
-  defp load_rules(path) do
-    path
-    |> YamlElixir.read_from_file()
+  @spec load_rules() :: {:ok, list(Rule.t())} | {:error, String.t()}
+  defp load_rules do
+    @rules_file
+    |> YamlElixir.read_from_string()
     |> process_file()
   end
 
