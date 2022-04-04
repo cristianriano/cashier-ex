@@ -4,6 +4,7 @@ defmodule ProductRepoTest do
   use ExUnit.Case, async: true
 
   alias Cashier.ProductRepo
+  alias Cashier.Repo.NotFound
 
   test "loads correctly all the products" do
     products = ProductRepo.find_all()
@@ -11,12 +12,13 @@ defmodule ProductRepoTest do
   end
 
   test "search correctly by product code" do
-    {:ok, product} = ProductRepo.find_product_by_code("GR1")
+    product = ProductRepo.find_product_by_code!("GR1")
     assert product.code == "GR1"
   end
 
-  test "returns not found when product dont exists" do
-    {:error, reason} = ProductRepo.find_product_by_code("ER99")
-    assert reason == :not_found
+  test "raise error when product doesn't exists" do
+    assert_raise NotFound, ~r/ER99/, fn ->
+      ProductRepo.find_product_by_code!("ER99")
+    end
   end
 end

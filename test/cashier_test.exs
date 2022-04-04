@@ -5,19 +5,29 @@ defmodule CashierTest do
 
   use ExUnit.Case, async: true
 
-  describe ".find_product_by_code" do
+  describe ".find_product_by_code!" do
     test "returns the product info" do
-      {:ok, product} = Cashier.find_product_by_code("GR1")
+      product = Cashier.find_product_by_code("GR1")
 
       assert product.code == "GR1"
       assert product.name == "Green Tea"
       assert product.price == 3.11
     end
 
-    test "returns :not_found when products do not exists" do
-      {:error, reason} = Cashier.find_product_by_code("invalid")
+    test "returns nil when products do not exists" do
+      assert Cashier.find_product_by_code("invalid") == nil
+    end
+  end
 
-      assert reason == :not_found
+  describe ".find_all_rules" do
+    test "returns all rules" do
+      rules = Cashier.find_all_rules()
+
+      assert Enum.count(rules) == 3
+    end
+
+    test "returns nil when products do not exists" do
+      assert Cashier.find_product_by_code("invalid") == nil
     end
   end
 

@@ -10,14 +10,24 @@ defmodule Cashier.RuleRepo do
 
   @rules_file File.read!(Application.compile_env!(:cashier, :rules_file))
 
+  @spec find_rules_by_target(module(), Rule.target()) :: {:ok, list(Rule.t())}
+  def find_rules_by_target(module, target) do
+    GenServer.call(module, {:find_by_target, target})
+  end
+
   @spec find_rules_by_target(Rule.target()) :: {:ok, list(Rule.t())}
   def find_rules_by_target(target) do
-    GenServer.call(__MODULE__, {:find_by_target, target})
+    find_rules_by_target(__MODULE__, target)
+  end
+
+  @spec find_all(module()) :: {:ok, list(Rule.t())}
+  def find_all(module) do
+    GenServer.call(module, :find_all)
   end
 
   @spec find_all() :: {:ok, list(Rule.t())}
   def find_all do
-    GenServer.call(__MODULE__, :find_all)
+    find_all(__MODULE__)
   end
 
   def handle_call({:find_by_target, target}, _from, %{rules: rules} = state) do

@@ -50,4 +50,6 @@ docker run -d --rm -it --name cashier-ex cashier-ex:latest
 ## Improvements
 
 - Add an TCP interface
-- Spawn more than 1 repo and use consistent hashing to route calls
+- Spawn more than 1 repo and use consistent hashing to route calls (libring)
+- Macro for repo
+- Use ETS for persisting the data

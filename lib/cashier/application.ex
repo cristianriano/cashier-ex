@@ -6,8 +6,8 @@ defmodule Cashier.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Cashier.ProductRepo,
-      Cashier.RuleRepo
+      {Cashier.Repo, module: Cashier.ProductRepo},
+      {Cashier.Repo, module: Cashier.RuleRepo}
     ]
 
     opts = [strategy: :one_for_one, name: Cashier.Supervisor]

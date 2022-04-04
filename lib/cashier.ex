@@ -5,12 +5,20 @@ defmodule Cashier do
 
   alias Cashier.Basket
   alias Cashier.Product
-  alias Cashier.ProductRepo
+  alias Cashier.Repo
   alias Cashier.Rule
-  alias Cashier.RuleRepo
 
-  @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
-  defdelegate find_product_by_code(code), to: ProductRepo
+  @spec find_product_by_code(String.t()) :: Product.t() | nil
+  def find_product_by_code(code) do
+    Repo.execute(Cashier.ProductRepo, 1, :find_product_by_code!, [code])
+  rescue
+    _ -> nil
+  end
+
+  @spec find_all_rules() :: list(Rule.t())
+  def find_all_rules do
+    Repo.execute(Cashier.RuleRepo, 2, :find_all, [])
+  end
 
   @spec calculate_total_price(String.t()) :: float()
   def calculate_total_price(codes) do
@@ -20,7 +28,7 @@ defmodule Cashier do
       |> Basket.new()
 
     new_basket =
-      RuleRepo.find_all()
+      find_all_rules()
       |> Enum.filter(&Map.has_key?(basket.products_by_code, &1.target))
       |> Enum.reduce(basket, fn rule, basket ->
         Rule.apply_discount(rule, basket)
@@ -33,7 +41,7 @@ defmodule Cashier do
   defp parse_codes(codes) do
     codes
     |> String.split(",")
-    |> Enum.map(&ProductRepo.find_product_by_code!/1)
+    |> Enum.map(&find_product_by_code/1)
     |> Enum.reject(&is_nil/1)
   end
 end

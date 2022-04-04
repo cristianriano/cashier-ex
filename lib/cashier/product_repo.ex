@@ -7,23 +7,31 @@ defmodule Cashier.ProductRepo do
   require Logger
 
   alias Cashier.Product
+  alias Cashier.Repo.NotFound
 
   @products_file File.read!(Application.compile_env!(:cashier, :products_file))
 
-  @spec find_product_by_code(String.t()) :: {:ok, Product.t()} | {:error, :not_found}
-  def find_product_by_code(code) do
-    GenServer.call(__MODULE__, {:find_by_code, code})
+  @spec find_product_by_code!(module(), String.t()) :: Product.t()
+  def find_product_by_code!(module, code) do
+    case GenServer.call(module, {:find_by_code, code}) do
+      {:ok, product} -> product
+      {:error, :not_found} -> raise NotFound, message: "Product code #{code} not found"
+    end
   end
 
   @spec find_product_by_code!(String.t()) :: Product.t()
   def find_product_by_code!(code) do
-    {:ok, product} = find_product_by_code(code)
-    product
+    find_product_by_code!(__MODULE__, code)
+  end
+
+  @spec find_all(module()) :: {:ok, list(Product.t())}
+  def find_all(module) do
+    GenServer.call(module, :find_all)
   end
 
   @spec find_all() :: {:ok, list(Product.t())}
   def find_all do
-    GenServer.call(__MODULE__, :find_all)
+    find_all(__MODULE__)
   end
 
   def handle_call({:find_by_code, code}, _from, %{products: products} = state) do
