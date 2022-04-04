@@ -30,6 +30,7 @@ defmodule Cashier.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:libring, "~> 1.5"},
       {:yaml_elixir, "~> 2.8"}
     ]
   end
