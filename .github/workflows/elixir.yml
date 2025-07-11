@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: [1.12]
+        elixir: [1.14]
         otp: [24.0]
 
     steps:
@@ -32,7 +32,7 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
 
       - name: Retrieve Mix Dependencies Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         id: mix-cache # id to use in retrieve action
         with:
           path: deps
